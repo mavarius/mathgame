@@ -8,9 +8,9 @@
 // DONE: User has time to view result before next problem is displayed
 // EXTRA FEATURES
 // DONE: User can receive equations that use +,-,*,/ operators (possible results must be integers)
-// TODO: User can flip sign of entry
-// TODO: User can skip questions that are too difficult without answering
-// TODO: User can see score for the game session
+// DONE: User can flip sign of entry
+// DONE: User can skip questions that are too difficult without answering
+// DONE: User can see score for the game session
 // TODO: User can use keyboard inputs instead of on-screen buttons
 // TODO: User gets audo feedback for correct/incorrect answers
 // TODO: Animated UI elements
@@ -23,7 +23,9 @@ let App = React.createClass({
       answer: 0,
       buttons: '',
       entry: '',
-      message: ''
+      message: '',
+      score: 0,
+      skips: 0
     }
   },
 
@@ -97,20 +99,26 @@ let App = React.createClass({
     this.generateProblem()
   },
 
-  submitEntry () {
-    let { entry, answer, message } = this.state;
+  submitEntry (e) {
+    let { entry, answer, message, score, skips } = this.state;
 
-    if (entry == answer) {
+    if (entry == answer && e.target.value != 'skip') {
       this.setState({
-        message: 'CORRECT!'
+        message: 'CORRECT!',
+        score: score + 1
       })
     } else {
       this.setState({
         message: 'The correct answer is ' + answer
       })
+      if (e.target.value == 'skip') {
+        this.setState({
+          skips: skips + 1
+        })
+      }
     }
 
-    setTimeout(() => {this.reset()}, 2500)
+    setTimeout(() => {this.reset()}, 2200)
   },
 
   clearField () {
@@ -122,6 +130,16 @@ let App = React.createClass({
     })
   },
 
+  switchSign () {
+    let { entry } = this.state;
+
+    if (entry) {
+      this.setState({
+        entry: entry*-1
+      })
+    }
+  },
+
   componentWillMount() {
     this.createButtons()
     this.generateProblem()
@@ -129,7 +147,7 @@ let App = React.createClass({
 
   render() {
 
-    let { buttons, equation, nums, answer, entry, message } = this.state;
+    let { buttons, equation, nums, answer, entry, message, score, skips } = this.state;
 
     return (
       <div className='container'>
@@ -137,7 +155,9 @@ let App = React.createClass({
 
         <div className='equation text-center'>
           <p>Instruction: Enter answer, round decimals to lowest integer.</p>
-          <div className='answer'><h4>{message}</h4></div>
+          <div className='answer'>
+            <h4>{message}</h4>
+          </div>
           <h3>
             {equation} =
           </h3>
@@ -146,10 +166,14 @@ let App = React.createClass({
 
         <div className='keypad text-center'>
           {buttons}
+          <button className="switchSign btn btn-info" onClick={this.switchSign}>-/+</button>
         </div>
         <div className='row text-center'>
           <button className="clear btn btn-danger" onClick={this.clearField}>clear</button>
           <button className='submit btn btn-success' onClick={this.submitEntry}>submit</button>
+          <button className='skip btn' value='skip' onClick={this.submitEntry}>skip</button>
+          <h4>score: {score}</h4>
+          <h5>skips: {skips}</h5>
         </div>
       </div>
 

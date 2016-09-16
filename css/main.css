@@ -6,6 +6,10 @@ h3 {
   display: inline;
 }
 
+h5 {
+  color: lightgray;
+}
+
 input {
   height: 50px;
   width: 150px;
