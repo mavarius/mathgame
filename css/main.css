@@ -1,0 +1,29 @@
+.row {
+  display: block;
+}
+
+.numBtn {
+  margin: 0 5px;
+}
+
+h3 {
+  display: inline;
+}
+
+input {
+  height: 50px;
+  width: 150px;
+  margin: 20px;
+  font-size: 2em;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid lightgray;
+}
+
+.keypad, .equation {
+  margin: 0 auto;
+}
+
+.submit {
+  margin: 10px;
+}
