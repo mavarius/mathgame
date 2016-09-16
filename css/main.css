@@ -2,10 +2,6 @@
   display: block;
 }
 
-.numBtn {
-  margin: 0 5px;
-}
-
 h3 {
   display: inline;
 }
@@ -24,6 +20,10 @@ input {
   margin: 0 auto;
 }
 
-.submit {
+.btn {
   margin: 10px;
+}
+
+.answer {
+  height: 20px;
 }
